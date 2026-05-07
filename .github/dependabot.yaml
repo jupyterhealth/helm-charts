@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Maintain dependencies in our GitHub Workflows
+  - package-ecosystem: github-actions
+    directory: /
+    groups:
+      # group official actions updates
+      actions:
+        patterns:
+          - "actions/*"
+      docker-actions:
+        patterns:
+          - "*docker*"
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7

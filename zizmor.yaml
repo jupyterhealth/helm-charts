@@ -1,0 +1,5 @@
+rules:
+  cache-poisoning:
+    # only care about cache poisoning in release workflow
+    ignore:
+      - test.yaml

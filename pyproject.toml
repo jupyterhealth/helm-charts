@@ -1,0 +1,4 @@
+# not a Python package, but some tools are configured here
+[project]
+name = "jupyterhealth-helm-charts"
+requires-python = ">=3.11"

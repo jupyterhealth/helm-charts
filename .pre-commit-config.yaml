@@ -1,0 +1,61 @@
+repos:
+  # Autoformat: Python code, syntax patterns are modernized
+  - repo: https://github.com/asottile/pyupgrade
+    rev: 75992aaa40730136014f34227e0135f63fc951b4 # frozen: v3.21.2
+    hooks:
+      - id: pyupgrade
+
+  # Autoformat: Python code
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: fa505ab9c3e0fedafe1709fd7ac2b5f8996c670d # frozen: 26.3.1
+    hooks:
+      - id: black
+
+  # Autoformat: Python code
+  - repo: https://github.com/pycqa/isort
+    rev: a333737ed43df02b18e6c95477ea1b285b3de15a # frozen: 8.0.1
+    hooks:
+      - id: isort
+        args:
+          - --profile=black
+
+  # Autoformat: markdown, yaml (but not helm templates)
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: c2bc67fe8f8f549cc489e00ba8b45aa18ee713b1 # frozen: v3.8.1
+    hooks:
+      - id: prettier
+
+  # Reset Chart.yaml version and values.yaml image tags
+  - repo: https://github.com/jupyterhub/chartpress
+    rev: d58f1a19e1df3392d3a0a191a230f4e5fef1bff5 # frozen: 2.3.0
+    hooks:
+      - id: chartpress
+
+  # Linting: Python code (see the file .flake8)
+  - repo: https://github.com/PyCQA/flake8
+    rev: "d93590f5be797aabb60e3b09f2f52dddb02f349f" # frozen: 7.3.0
+    hooks:
+      - id: flake8
+
+  # github actions security checks
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: ea2eb407b4cbce87cf0d502f36578950494f5ac9 # frozen: v1.23.1
+    hooks:
+      - id: zizmor
+        args:
+          - --fix=all
+
+  # Autoformat: Bash scripts
+  - repo: https://github.com/lovesegfault/beautysh
+    rev: 885128fe2600889194c69fa19326cf55a3462777 # frozen: v6.4.3
+    hooks:
+      - id: beautysh
+
+  # shell scripts
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: 99470f5e12208ff0fb17ab81c3c494f7620a1d8d # frozen: v0.11.0
+    hooks:
+      - id: shellcheck
+
+ci:
+  autoupdate_schedule: monthly

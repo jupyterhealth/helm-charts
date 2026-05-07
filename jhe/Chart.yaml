@@ -1,0 +1,11 @@
+apiVersion: v2
+name: jupyterhealth
+version: 0.0.1-set.by.chartpress
+appVersion: "0.0.10"
+description: JupyterHealth helm chart
+keywords: [jupyter, jupyterhub, z2jh]
+home: https://jupyterhealth.org
+sources:
+  - https://github.com/jupyterhealth/helm-charts
+icon: https://jupyterhealth.org/favicon-180.png
+kubeVersion: ">=1.31.0-0"
