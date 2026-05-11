@@ -32,27 +32,12 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Decide to publish or not
-        id: publishing
-        shell: python
-        run: |
-          import os
-          repo = "${{ github.repository }}"
-          event = "${{ github.event_name }}"
-          ref = "${{ github.event.ref }}"
-          publishing = ""
-          if (
-              repo == "jupyterhealth/helm-charts"
-              and event == "push"
-              and (
-                  ref.startswith("refs/tags/")
-                  or ref == "refs/heads/main"
-              )
-          ):
-              publishing = "true"
-              print("Publishing chart")
-          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-              f.write(f"publishing={publishing}\n")
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU (for docker buildx)
         uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4
