@@ -10,7 +10,7 @@ db:
 debug:
   enabled: false
 
-image: ghcr.io/jupyterhealth/jupyterhealth-exchange:dfb02ca
+image: ghcr.io/jupyterhealth/jupyterhealth-exchange:5d432a8
 imagePullPolicy:
 
 migrate:
