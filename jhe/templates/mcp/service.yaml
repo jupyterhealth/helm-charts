@@ -1,8 +1,9 @@
-{{- $service := .Values.service }}
+{{- if .Values.mcp.enabled }}
+{{- $service := .Values.mcp.service }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "jhe.fullname" . }}
+  name: {{ include "jhe.fullname" . }}-mcp
   labels:
     {{- include "jhe.labels" . | nindent 4 }}
   {{- with $service.annotations }}
@@ -11,7 +12,7 @@ metadata:
   {{- end }}
 spec:
   selector:
-    app.kubernetes.io/component: jhe
+    app.kubernetes.io/component: mcp
     {{- include "jhe.matchLabels" . | nindent 4 }}
   ports:
     - name: http
@@ -38,3 +39,4 @@ spec:
   externalIPs:
     {{- . | toYaml | nindent 4 }}
   {{- end }}
+{{- end }}

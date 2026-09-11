@@ -1,0 +1,36 @@
+{{- $ingress := .Values.mcp.ingress }}
+{{- if and .Values.mcp.enabled $ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "jhe.fullname" . }}-mcp
+  labels:
+    {{- include "jhe.labels" . | nindent 4 }}
+  {{- with $ingress.annotations }}
+  annotations:
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with $ingress.ingressClassName }}
+  ingressClassName: "{{ . }}"
+  {{- end }}
+  rules:
+    {{- range $host := $ingress.hosts | default (list "") }}
+    - http:
+        paths:
+          - path: {{ $ingress.path }}
+            pathType: {{ $ingress.pathType }}
+            backend:
+              service:
+                name: {{ include "jhe.fullname" $ }}-mcp
+                port:
+                  name: http
+      {{- if $host }}
+      host: {{ $host | quote }}
+      {{- end }}
+    {{- end }}
+  {{- with $ingress.tls }}
+  tls:
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
+{{- end }}

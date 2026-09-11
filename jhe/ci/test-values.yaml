@@ -6,13 +6,20 @@ db:
 
 env:
   SITE_URL: http://localhost:8081
-  ALLOWED_HOSTS: 127.0.0.1,localhost
 
 service:
   type: ClusterIP
 
 ingress:
   enabled: true
+
+mcp:
+  enabled: true
+  ingress:
+    enabled: true
+    path: /mcp
+  service:
+    type: ClusterIP
 
 postgres:
   enabled: true

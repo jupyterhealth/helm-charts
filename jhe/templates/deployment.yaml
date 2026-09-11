@@ -1,3 +1,4 @@
+{{- $self := .Values }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -89,6 +90,22 @@ spec:
           env:
             - name: PYTHONUNBUFFERED
               value: "1"
+            {{- if not .Values.env.ALLOWED_HOSTS }}
+            - name: ALLOWED_HOSTS
+              value: 127.0.0.1,localhost,{{ get (.Values.env.SITE_URL | default "http://localhost" | urlParse) "host" | regexFind "^[^:]+" }},.{{ .Release.Namespace }}.svc.cluster.local
+            {{- end }}
+            {{- if .Values.mcp.enabled }}
+            - name: MCP_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jhe.fullname" $ }}-mcp
+                  key: JHE_CLIENT_ID
+            - name: MCP_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jhe.fullname" $ }}-mcp
+                  key: JHE_CLIENT_SECRET
+            {{- end }}
           ports:
             - containerPort: 8000
               name: http
@@ -97,7 +114,7 @@ spec:
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             httpGet:
-              path: /
+              path: /health
               port: http
               httpHeaders:
                 - name: Host
@@ -108,7 +125,7 @@ spec:
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             httpGet:
-              path: /
+              path: /health
               port: http
               httpHeaders:
                 - name: Host

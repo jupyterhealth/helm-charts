@@ -10,7 +10,7 @@ db:
 debug:
   enabled: false
 
-image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.13.dev102-gb582f941f
+image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.13.dev120-gff3615431
 imagePullPolicy:
 
 migrate:
@@ -23,9 +23,13 @@ workers: 2
 env:
   SITE_TITLE: JupyterHealth Exchange
   SITE_URL: ""
+  # allowed_hosts
+  # must contain localhost for health check, must also contain .namespace.svc.cluster.local for mcp server
+  # ALLOWED_HOSTS: 127.0.0.1,localhost,*.svc.cluster.local
 
 # first-time generate these secret environment variables
 _secret_env:
+  - OIDC_RSA_PRIVATE_KEY
   - SECRET_KEY
 
 resources: {}
@@ -87,10 +91,62 @@ readinessProbe:
   periodSeconds: 11
 
 mcp:
-  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:4b121c2
+  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.13.dev120-gff3615431
   enabled: false
   replicas: 1
   resources: {}
+  command: # @schema type:[array, null]
+  args: # @schema type:[array, null]
+  env: {}
+
+  _secret_env:
+    - MCP_BROKER_KEY
+    - JHE_CLIENT_ID
+    - JHE_CLIENT_SECRET
+
+  service:
+    type: LoadBalancer
+    labels: {}
+    annotations: {}
+    nodePorts:
+      http: # @schema type:[integer, null]; minimum:0
+      https: # @schema type:[integer, null]; minimum:0
+    disableHttpPort: false
+    extraPorts: []
+    externalIPs: []
+    loadBalancerIP:
+    loadBalancerSourceRanges: []
+    ipFamilyPolicy: PreferDualStack
+    ipFamilies: []
+
+  httpRoute:
+    enabled: false
+    annotations: {}
+    hostnames: []
+    gateway:
+      name: your-gateway
+      namespace: "" # required for a gateway resource in another namespace
+
+  ingress:
+    enabled: false
+    annotations: {}
+    ingressClassName:
+    hosts: []
+    path: /
+    pathSuffix:
+    pathType: Prefix
+    tls: []
+    extraPaths: []
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 13
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 3
+    periodSeconds: 11
 
 # these are only for testing
 seed:
