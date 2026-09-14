@@ -91,7 +91,7 @@ readinessProbe:
   periodSeconds: 11
 
 mcp:
-  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.13.dev120-gff3615431
+  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:3122346
   enabled: false
   replicas: 1
   resources: {}
