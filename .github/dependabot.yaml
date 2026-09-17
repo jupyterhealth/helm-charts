@@ -19,6 +19,10 @@ updates:
     directory: /jhe
     schedule:
       interval: daily
+    groups:
+      images:
+        patterns:
+          - ghcr.io/jupyterhealth/*
     ignore:
       - dependency-name: ghcr.io/jupyterhealth/jupyterhealth-exchange
         versions:
