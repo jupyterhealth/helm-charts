@@ -111,23 +111,9 @@ spec:
               name: http
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            httpGet:
-              path: /health
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: localhost
+            {{- include "jhe.probe" .Values.livenessProbe | nindent 12 }}
           {{- end }}
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            httpGet:
-              path: /health
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: localhost
+            {{- include "jhe.probe" .Values.readinessProbe | nindent 12 }}
           {{- end }}

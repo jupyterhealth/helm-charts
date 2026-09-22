@@ -46,3 +46,20 @@ Create chart name and version as used by the chart label.
 {{- define "jhe.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Pass through probe arguments to the underlying probe field
+*/}}
+
+{{- define "jhe.probe" -}}
+{{ $probe := omit . "enabled" }}
+{{ $probe | toYaml }}
+{{- if not $probe.httpGet }}
+httpGet:
+  path: /health
+  port: http
+  httpHeaders:
+    - name: Host
+      value: "localhost"
+{{- end }}
+{{- end -}}

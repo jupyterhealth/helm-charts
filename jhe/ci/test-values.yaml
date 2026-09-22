@@ -31,3 +31,8 @@ seed:
   args:
     - --flush-db
     - --with-rich
+
+readinessProbe:
+  # define valid field not in default values
+  # make sure passes schema validation
+  failureThreshold: 2

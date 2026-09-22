@@ -138,6 +138,9 @@
         },
         "periodSeconds": {
           "type": "integer"
+        },
+        "timeoutSeconds": {
+          "type": "integer"
         }
       }
     },
@@ -239,6 +242,9 @@
             },
             "periodSeconds": {
               "type": "integer"
+            },
+            "timeoutSeconds": {
+              "type": "integer"
             }
           }
         },
@@ -252,6 +258,9 @@
               "type": "integer"
             },
             "periodSeconds": {
+              "type": "integer"
+            },
+            "timeoutSeconds": {
               "type": "integer"
             }
           }
@@ -372,6 +381,9 @@
           "type": "integer"
         },
         "periodSeconds": {
+          "type": "integer"
+        },
+        "timeoutSeconds": {
           "type": "integer"
         }
       }
