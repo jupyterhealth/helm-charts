@@ -64,26 +64,12 @@ spec:
           ports:
             - containerPort: 8000
               name: http
-          {{- if $self.livenessProbe.enabled }}
+          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            initialDelaySeconds: {{ $self.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ $self.livenessProbe.periodSeconds }}
-            httpGet:
-              path: /health
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: localhost
+            {{- include "jhe.probe" .Values.livenessProbe | nindent 12 }}
           {{- end }}
-          {{- if $self.readinessProbe.enabled }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-            initialDelaySeconds: {{ $self.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ $self.readinessProbe.periodSeconds }}
-            httpGet:
-              path: /health
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: localhost
+            {{- include "jhe.probe" .Values.readinessProbe | nindent 12 }}
           {{- end }}
 {{- end }}

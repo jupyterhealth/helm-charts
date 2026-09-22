@@ -84,11 +84,13 @@ livenessProbe:
   enabled: true
   initialDelaySeconds: 5
   periodSeconds: 13
+  timeoutSeconds: 15
 
 readinessProbe:
   enabled: true
   initialDelaySeconds: 3
   periodSeconds: 11
+  timeoutSeconds: 8
 
 mcp:
   image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev7-gca688288d
@@ -142,11 +144,13 @@ mcp:
     enabled: true
     initialDelaySeconds: 5
     periodSeconds: 13
+    timeoutSeconds: 15
 
   readinessProbe:
     enabled: true
     initialDelaySeconds: 3
     periodSeconds: 11
+    timeoutSeconds: 10
 
 # these are only for testing
 seed:
