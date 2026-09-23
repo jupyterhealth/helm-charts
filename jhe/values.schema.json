@@ -133,6 +133,9 @@
         "enabled": {
           "type": "boolean"
         },
+        "failureThreshold": {
+          "type": "integer"
+        },
         "initialDelaySeconds": {
           "type": "integer"
         },
@@ -324,6 +327,23 @@
               "type": "string"
             }
           }
+        },
+        "startupProbe": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "failureThreshold": {
+              "type": "integer"
+            },
+            "periodSeconds": {
+              "type": "integer"
+            },
+            "timeoutSeconds": {
+              "type": "integer"
+            }
+          }
         }
       }
     },
@@ -376,6 +396,9 @@
       "properties": {
         "enabled": {
           "type": "boolean"
+        },
+        "failureThreshold": {
+          "type": "integer"
         },
         "initialDelaySeconds": {
           "type": "integer"
@@ -459,6 +482,23 @@
         },
         "type": {
           "type": "string"
+        }
+      }
+    },
+    "startupProbe": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "failureThreshold": {
+          "type": "integer"
+        },
+        "periodSeconds": {
+          "type": "integer"
+        },
+        "timeoutSeconds": {
+          "type": "integer"
         }
       }
     },

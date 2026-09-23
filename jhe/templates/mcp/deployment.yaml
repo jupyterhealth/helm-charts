@@ -72,4 +72,8 @@ spec:
           readinessProbe:
             {{- include "jhe.probe" .Values.readinessProbe | nindent 12 }}
           {{- end }}
+          {{- if .Values.startupProbe.enabled }}
+          startupProbe:
+            {{- include "jhe.probe" .Values.startupProbe | nindent 12 }}
+          {{- end }}
 {{- end }}
