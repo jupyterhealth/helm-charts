@@ -82,15 +82,23 @@ ingress:
 
 livenessProbe:
   enabled: true
-  initialDelaySeconds: 5
+  initialDelaySeconds: 0
   periodSeconds: 13
   timeoutSeconds: 15
+  failureThreshold: 3
 
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 3
-  periodSeconds: 11
+  initialDelaySeconds: 0
+  periodSeconds: 5
   timeoutSeconds: 8
+  failureThreshold: 3
+
+startupProbe:
+  enabled: true
+  periodSeconds: 1
+  timeoutSeconds: 1
+  failureThreshold: 30
 
 mcp:
   image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev7-gca688288d
@@ -151,6 +159,12 @@ mcp:
     initialDelaySeconds: 3
     periodSeconds: 11
     timeoutSeconds: 10
+
+  startupProbe:
+    enabled: true
+    periodSeconds: 1
+    timeoutSeconds: 1
+    failureThreshold: 30
 
 # these are only for testing
 seed:
