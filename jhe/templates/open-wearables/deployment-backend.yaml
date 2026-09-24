@@ -1,0 +1,77 @@
+{{- if .Values.openWearables.enabled }}
+{{- $backend := .Values.openWearables.backend }}
+{{- range (list "backend" "celery-beat" "celery-worker") }}
+{{- $key := . }}
+{{- $name := printf "ow-%s" . }}
+{{- $self := index $.Values.openWearables . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "jhe.fullname" $ }}-{{ $name }}
+  labels:
+    app.kubernetes.io/component: {{ $name }}
+    {{- include "jhe.labels" $ | nindent 4 }}
+spec:
+  replicas: {{ $self.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: {{ $name }}
+      {{- include "jhe.matchLabels" $ | nindent 6 }}
+  {{- with $self.deploymentStrategy }}
+  strategy:
+    {{- . | toYaml | trimSuffix "\n" | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: {{ $name }}
+        {{- include "jhe.matchLabels" $ | nindent 8 }}
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/open-wearables/secret.yaml") $ | sha256sum }}
+        {{- if $.Values.annotations }}
+        {{- $.Values.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
+        {{- end }}
+    spec:
+      nodeSelector: {{ toJson $.Values.nodeSelector }}
+      containers:
+        - name: backend
+          image: {{ $self.image | default $backend.image }}
+          {{- with $self.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with $self.resources }}
+          resources:
+            {{- . | toYaml | trimSuffix "\n" | nindent 12 }}
+          {{- end }}
+          {{- with $backend.imagePullPolicy }}
+          imagePullPolicy: {{ . }}
+          {{- end }}
+          env:
+            - name: REDIS_HOST
+              value: {{ include "jhe.fullname" $ }}-ow-redis
+          envFrom:
+            - secretRef:
+                name: {{ include "jhe.fullname" $ }}-ow-backend
+          {{- if eq $key "backend" }}
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          {{- end }}
+          {{- if $self.livenessProbe.enabled }}
+          livenessProbe:
+            {{- include "jhe.probe" $self.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if $self.readinessProbe.enabled }}
+          readinessProbe:
+            {{- include "jhe.probe" $self.readinessProbe | nindent 12 }}
+          {{- end }}
+          {{- if $self.startupProbe.enabled }}
+          startupProbe:
+            {{- include "jhe.probe" $self.startupProbe | nindent 12 }}
+          {{- end }}
+---
+{{- end }}
+{{- end }}

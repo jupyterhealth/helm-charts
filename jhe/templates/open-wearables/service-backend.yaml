@@ -1,0 +1,22 @@
+{{- if .Values.openWearables.enabled }}
+{{- $service := .Values.openWearables.backend.service }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jhe.fullname" . }}-ow-backend
+  labels:
+    {{- include "jhe.labels" . | nindent 4 }}
+  {{- with $service.annotations }}
+  annotations:
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  selector:
+    app.kubernetes.io/component: ow-backend
+    {{- include "jhe.matchLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
+  type: ClusterIP
+{{- end }}

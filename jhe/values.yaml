@@ -166,6 +166,159 @@ mcp:
     timeoutSeconds: 1
     failureThreshold: 30
 
+# open-wearables
+# adapted from Apache-2.0-licensed
+# https://github.com/HomeOpsHub/helm-for-home/tree/e4a195942b794a14a4611f2db3de25f3e541fb3a/charts/stable/open-wearables
+# and docker-compose reference:
+# https://github.com/the-momentum/open-wearables/blob/fa69264182c637821bb931285f9f67999c99438d/docs/deployment/docker.mdx#example-compose-deployment
+openWearables:
+  enabled: false
+  backend:
+    replicas: 1
+    image: themomentum/open-wearables-backend:0.9
+    command:
+      - scripts/start/app.sh
+    args: []
+    env: {}
+    _secret_env:
+      - SECRET_KEY
+
+    resources: {}
+    service:
+      annotations: {}
+
+    livenessProbe:
+      enabled: false
+      initialDelaySeconds: 5
+      periodSeconds: 13
+      timeoutSeconds: 15
+
+    readinessProbe:
+      enabled: false
+      initialDelaySeconds: 3
+      periodSeconds: 11
+      timeoutSeconds: 10
+
+    startupProbe:
+      enabled: false
+      periodSeconds: 1
+      timeoutSeconds: 1
+      failureThreshold: 30
+
+  # -----------------------------------------------------------
+  # Celery Worker
+  # -----------------------------------------------------------
+  celery-worker:
+    replicas: 1
+    image: ""
+    command:
+      - scripts/start/worker.sh
+    resources: {}
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
+
+  # -----------------------------------------------------------
+  # Celery Beat (periodic task scheduler)
+  # -----------------------------------------------------------
+  celery-beat:
+    replicas: 1
+    image: ""
+    command:
+      - scripts/start/beat.sh
+    resources: {}
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
+
+  # redis (queue)
+  redis:
+    replicas: 1
+    image: valkey/valkey:9-alpine
+    command: # @schema type:[array, null]
+    args: # @schema type:[array, null]
+    env: {}
+    resources: {}
+    # TODO: persistence
+    data: {}
+    service:
+      annotations: {}
+
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
+
+  # -----------------------------------------------------------
+  # Frontend (React / Node.js)
+  # -----------------------------------------------------------
+  frontend:
+    replicas: 1
+    image: themomentum/open-wearables-frontend:0.9
+    resources: {}
+    livenessProbe:
+      enabled: false
+      initialDelaySeconds: 5
+      periodSeconds: 13
+      timeoutSeconds: 15
+
+    readinessProbe:
+      enabled: false
+      initialDelaySeconds: 3
+      periodSeconds: 11
+      timeoutSeconds: 10
+
+    startupProbe:
+      enabled: false
+      periodSeconds: 1
+      timeoutSeconds: 1
+      failureThreshold: 30
+
+  # -----------------------------------------------------------
+  # Ingress
+  # -----------------------------------------------------------
+  service:
+    type: LoadBalancer
+    labels: {}
+    annotations: {}
+    nodePorts:
+      http: # @schema type:[integer, null]; minimum:0
+      https: # @schema type:[integer, null]; minimum:0
+    disableHttpPort: false
+    extraPorts: []
+    externalIPs: []
+    loadBalancerIP:
+    loadBalancerSourceRanges: []
+    ipFamilyPolicy: PreferDualStack
+    ipFamilies: []
+
+  httpRoute:
+    enabled: false
+    annotations: {}
+    hostnames: []
+    gateway:
+      name: your-gateway
+      namespace: "" # required for a gateway resource in another namespace
+
+  ingress:
+    enabled: false
+    annotations: {}
+    ingressClassName:
+    hosts: []
+    path: /
+    pathSuffix:
+    pathType: Prefix
+    tls: []
+    extraPaths: []
+
 # these are only for testing
 seed:
   enabled: false
