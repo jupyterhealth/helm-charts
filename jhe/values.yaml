@@ -10,7 +10,7 @@ db:
 debug:
   enabled: false
 
-image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.15.dev11-g791cce715
+image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.15.dev12-g3d084fd9b
 imagePullPolicy:
 
 migrate:
@@ -101,7 +101,7 @@ startupProbe:
   failureThreshold: 30
 
 mcp:
-  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev11-g791cce715
+  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev12-g3d084fd9b
   enabled: false
   replicas: 1
   resources: {}
