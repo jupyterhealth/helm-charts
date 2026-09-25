@@ -25,7 +25,7 @@ spec:
   rules:
     - backendRefs:
         - name: {{ include "jhe.fullname" $ }}-ow-backend
-          port: 80
+          port: 8000
       {{- with $route.filters }}
       filters:
         {{- toYaml . | nindent 8 }}

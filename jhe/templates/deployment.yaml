@@ -106,6 +106,20 @@ spec:
                   name: {{ include "jhe.fullname" $ }}-mcp
                   key: JHE_CLIENT_SECRET
             {{- end }}
+            {{- if .Values.openWearables.enabled }}
+            - name: OW_API_URL
+              value: http://{{ include "jhe.fullname" $ }}-ow:8000
+            - name: OW_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jhe.fullname" $ }}-ow
+                  key: JHE_CLIENT_ID
+            - name: MCP_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jhe.fullname" $ }}-mcp
+                  key: JHE_CLIENT_SECRET
+            {{- end }}
           ports:
             - containerPort: 8000
               name: http

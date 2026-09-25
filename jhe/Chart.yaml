@@ -2,12 +2,17 @@ apiVersion: v2
 name: jhe
 version: 0.0.1-set.by.chartpress
 appVersion: "0.0.15"
-description: JupyterHealth helm chart
+description: |
+  JupyterHealth helm chart.
+  Deploys JpuyterHealth Exchange (JHE),
+  and optionally (off by default), the JHE MCP server and/or a barebones Open Wearables backend
+  for getting data from sources such as Oura rings.
 keywords: [jupyter, jupyterhealth]
 home: https://jupyterhealth.org
 sources:
   - https://github.com/jupyterhealth/helm-charts
-icon: https://jupyterhealth.org/favicon-180.png
+  - https://ghcr.io/jupyterhealth/helm/jhe
+icon: https://jupyterhealth.github.io/favicon-180.png
 kubeVersion: ">=1.31.0-0"
 maintainers:
   - name: minrk

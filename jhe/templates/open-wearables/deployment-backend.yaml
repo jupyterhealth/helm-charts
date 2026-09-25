@@ -1,9 +1,8 @@
 {{- if .Values.openWearables.enabled }}
 {{- $backend := .Values.openWearables.backend }}
-{{- range (list "backend" "celery-beat" "celery-worker") }}
-{{- $key := . }}
-{{- $name := printf "ow-%s" . }}
-{{- $self := index $.Values.openWearables . }}
+{{- range $key := (list "backend" "celery-beat" "celery-worker") }}
+{{- $name := printf "ow-%s" $key }}
+{{- $self := index $.Values.openWearables $key }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

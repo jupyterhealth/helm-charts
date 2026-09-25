@@ -1,25 +1,46 @@
+# Kubernetes stuff
+# -- override the name of the deployment
+# @default -- "jhe"
+nameOverride: ""
+# -- override the full name of the deployment
+# @default -- "$Name-jhe"
+fullnameOverride: ""
+
 # JHE stuff
 
 db:
+  # -- postgres db name
   name: postgres
+  # -- postgres username
   user: postgres
+  # -- postgres password
   password: ""
+  # -- postgres server host
   host: ""
+  # -- postgres server port
   port: 5432
 
 debug:
+  # -- global debug flag (unused)
   enabled: false
 
+# -- image for JHE
 image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.15.dev11-g791cce715
 imagePullPolicy:
 
 migrate:
+  # -- Run `manage.py migrate` as part of JHE startup.
+  # -- Typically required.
   enabled: true
 
+# -- Extra arguments to pass to JHE
 args: []
+# -- Extra volumes to mount
 volumeMounts: []
+# -- Number of worker processes per JHE replica
 workers: 2
 
+# -- Set environment variables for the JHE process
 env:
   SITE_TITLE: JupyterHealth Exchange
   SITE_URL: ""
@@ -27,21 +48,22 @@ env:
   # must contain localhost for health check, must also contain .namespace.svc.cluster.local for mcp server
   # ALLOWED_HOSTS: 127.0.0.1,localhost,*.svc.cluster.local
 
+# @ignore
 # first-time generate these secret environment variables
 _secret_env:
   - OIDC_RSA_PRIVATE_KEY
   - SECRET_KEY
 
+# -- resources for each JHE deployment replica
 resources: {}
 
-# kubernetes stuff
-nameOverride: ""
-fullnameOverride: ""
-
+# -- number of JHE replicas to deploy
 replicas: 1
 
 pdb:
+  # -- Enable Pod Disruption Budget for JHE
   enabled: false
+  # -- Pod Disruption Budget for JHE
   spec:
     maxUnavailable:
     minAvailable: 1
@@ -62,6 +84,7 @@ service:
   ipFamilies: []
 
 httpRoute:
+  # -- Expose JHE via Gateway HTTPRoute
   enabled: false
   annotations: {}
   hostnames: []
@@ -70,6 +93,7 @@ httpRoute:
     namespace: "" # required for a gateway resource in another namespace
 
 ingress:
+  # -- Expose JHE via Ingress
   enabled: false
   annotations: {}
   ingressClassName:
@@ -80,6 +104,7 @@ ingress:
   tls: []
   extraPaths: []
 
+# -- enable liveness probe
 livenessProbe:
   enabled: true
   initialDelaySeconds: 0
@@ -87,6 +112,7 @@ livenessProbe:
   timeoutSeconds: 15
   failureThreshold: 3
 
+# -- readiness probe
 readinessProbe:
   enabled: true
   initialDelaySeconds: 0
@@ -94,6 +120,7 @@ readinessProbe:
   timeoutSeconds: 8
   failureThreshold: 3
 
+# -- startup probe (before liveness/readiness start)
 startupProbe:
   enabled: true
   periodSeconds: 1
@@ -101,14 +128,22 @@ startupProbe:
   failureThreshold: 30
 
 mcp:
+  # -- mcp server image
   image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev11-g791cce715
+  # -- enable the mcp server
   enabled: false
+  # -- mcp server replicas
   replicas: 1
+  # -- mcp server resources
   resources: {}
+  # -- mcp server command
   command: # @schema type:[array, null]
+  # -- extra args to pass to the mcp server comand
   args: # @schema type:[array, null]
+  # -- environment variables for mcp server
   env: {}
 
+  # @ignore
   _secret_env:
     - MCP_BROKER_KEY
     - JHE_CLIENT_ID
@@ -129,6 +164,7 @@ mcp:
     ipFamilyPolicy: PreferDualStack
     ipFamilies: []
 
+  # -- Expose MCP Server via Gateway HTTPRoute
   httpRoute:
     enabled: false
     annotations: {}
@@ -137,6 +173,7 @@ mcp:
       name: your-gateway
       namespace: "" # required for a gateway resource in another namespace
 
+  # -- Expose MCP Server via Ingress
   ingress:
     enabled: false
     annotations: {}
@@ -148,18 +185,21 @@ mcp:
     tls: []
     extraPaths: []
 
+  # -- MCP Server liveness probe
   livenessProbe:
     enabled: true
     initialDelaySeconds: 5
     periodSeconds: 13
     timeoutSeconds: 15
 
+  # -- MCP Server readiness probe
   readinessProbe:
     enabled: true
     initialDelaySeconds: 3
     periodSeconds: 11
     timeoutSeconds: 10
 
+  # -- MCP Server startup probe
   startupProbe:
     enabled: true
     periodSeconds: 1
@@ -172,6 +212,7 @@ mcp:
 # and docker-compose reference:
 # https://github.com/the-momentum/open-wearables/blob/fa69264182c637821bb931285f9f67999c99438d/docs/deployment/docker.mdx#example-compose-deployment
 openWearables:
+  # -- enable open-wearables backend
   enabled: false
   backend:
     replicas: 1
@@ -180,6 +221,7 @@ openWearables:
       - scripts/start/app.sh
     args: []
     env: {}
+    # @ignore
     _secret_env:
       - SECRET_KEY
 
@@ -210,6 +252,7 @@ openWearables:
   # -----------------------------------------------------------
   celery-worker:
     replicas: 1
+    # @default -- .Values.openWearables.backend.image
     image: ""
     command:
       - scripts/start/worker.sh
@@ -226,6 +269,7 @@ openWearables:
   # -----------------------------------------------------------
   celery-beat:
     replicas: 1
+    # @default -- .Values.openWearables.backend.image
     image: ""
     command:
       - scripts/start/beat.sh
@@ -237,7 +281,6 @@ openWearables:
     startupProbe:
       enabled: false
 
-  # redis (queue)
   redis:
     replicas: 1
     image: valkey/valkey:9-alpine
@@ -262,6 +305,7 @@ openWearables:
   # -----------------------------------------------------------
 
   httpRoute:
+    # -- expose openWearables via http route
     enabled: false
     annotations: {}
     hostnames: []
@@ -270,6 +314,7 @@ openWearables:
       namespace: "" # required for a gateway resource in another namespace
 
   ingress:
+    # -- expose openWearables via ingress
     enabled: false
     annotations: {}
     ingressClassName:
@@ -281,12 +326,16 @@ openWearables:
     extraPaths: []
 
 # these are only for testing
+
 seed:
+  # -- seed the database for testing. This creates an insecure deployment, do not use in production.
   enabled: false
+  # -- the helm hook. post-install means this runs exactly one time ever.
   hook: post-install
   args: []
 
 postgres:
+  # -- include a temporary postgres database for local testing (NOT FOR PRODUCTION)
   enabled: false
   image: postgres:18
   serviceName: ""
