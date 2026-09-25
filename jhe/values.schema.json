@@ -358,6 +358,257 @@
     "nameOverride": {
       "type": "string"
     },
+    "openWearables": {
+      "type": "object",
+      "properties": {
+        "backend": {
+          "type": "object",
+          "properties": {
+            "_secret_env": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "args": {
+              "type": "array"
+            },
+            "command": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "env": {
+              "type": "object"
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "initialDelaySeconds": {
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "type": "integer"
+                }
+              }
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "initialDelaySeconds": {
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "type": "integer"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "service": {
+              "type": "object",
+              "properties": {
+                "annotations": {
+                  "type": "object"
+                }
+              }
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "failureThreshold": {
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "celery-beat": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "celery-worker": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "redis": {
+          "type": "object",
+          "properties": {
+            "args": {
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "command": {
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "data": {
+              "type": "object"
+            },
+            "env": {
+              "type": "object"
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "service": {
+              "type": "object",
+              "properties": {
+                "annotations": {
+                  "type": "object"
+                }
+              }
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "pdb": {
       "type": "object",
       "properties": {

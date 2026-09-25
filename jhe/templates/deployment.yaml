@@ -109,15 +109,15 @@ spec:
           ports:
             - containerPort: 8000
               name: http
-          {{- if .Values.livenessProbe.enabled }}
+          {{- if $self.livenessProbe.enabled }}
           livenessProbe:
-            {{- include "jhe.probe" .Values.livenessProbe | nindent 12 }}
+            {{- include "jhe.probe" $self.livenessProbe | nindent 12 }}
           {{- end }}
-          {{- if .Values.readinessProbe.enabled }}
+          {{- if $self.readinessProbe.enabled }}
           readinessProbe:
-            {{- include "jhe.probe" .Values.readinessProbe | nindent 12 }}
+            {{- include "jhe.probe" $self.readinessProbe | nindent 12 }}
           {{- end }}
-          {{- if .Values.startupProbe.enabled }}
+          {{- if $self.startupProbe.enabled }}
           startupProbe:
-            {{- include "jhe.probe" .Values.startupProbe | nindent 12 }}
+            {{- include "jhe.probe" $self.startupProbe | nindent 12 }}
           {{- end }}
