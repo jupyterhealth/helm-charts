@@ -257,6 +257,29 @@ openWearables:
     startupProbe:
       enabled: false
 
+  # -----------------------------------------------------------
+  # Ingress
+  # -----------------------------------------------------------
+
+  httpRoute:
+    enabled: false
+    annotations: {}
+    hostnames: []
+    gateway:
+      name: your-gateway
+      namespace: "" # required for a gateway resource in another namespace
+
+  ingress:
+    enabled: false
+    annotations: {}
+    ingressClassName:
+    hosts: []
+    path: /
+    pathSuffix:
+    pathType: Prefix
+    tls: []
+    extraPaths: []
+
 # these are only for testing
 seed:
   enabled: false

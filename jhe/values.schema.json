@@ -543,6 +543,63 @@
         "enabled": {
           "type": "boolean"
         },
+        "httpRoute": {
+          "type": "object",
+          "properties": {
+            "annotations": {
+              "type": "object"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "gateway": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "namespace": {
+                  "type": "string"
+                }
+              }
+            },
+            "hostnames": {
+              "type": "array"
+            }
+          }
+        },
+        "ingress": {
+          "type": "object",
+          "properties": {
+            "annotations": {
+              "type": "object"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "extraPaths": {
+              "type": "array"
+            },
+            "hosts": {
+              "type": "array"
+            },
+            "ingressClassName": {
+              "type": "null"
+            },
+            "path": {
+              "type": "string"
+            },
+            "pathSuffix": {
+              "type": "null"
+            },
+            "pathType": {
+              "type": "string"
+            },
+            "tls": {
+              "type": "array"
+            }
+          }
+        },
         "redis": {
           "type": "object",
           "properties": {

@@ -19,6 +19,12 @@ ingress:
 
 openWearables:
   enabled: true
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    hosts:
+      - ow.local.jovyan.org
 
 postgres:
   enabled: true
