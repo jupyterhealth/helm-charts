@@ -257,68 +257,6 @@ openWearables:
     startupProbe:
       enabled: false
 
-  # -----------------------------------------------------------
-  # Frontend (React / Node.js)
-  # -----------------------------------------------------------
-  frontend:
-    replicas: 1
-    image: themomentum/open-wearables-frontend:0.9
-    resources: {}
-    livenessProbe:
-      enabled: false
-      initialDelaySeconds: 5
-      periodSeconds: 13
-      timeoutSeconds: 15
-
-    readinessProbe:
-      enabled: false
-      initialDelaySeconds: 3
-      periodSeconds: 11
-      timeoutSeconds: 10
-
-    startupProbe:
-      enabled: false
-      periodSeconds: 1
-      timeoutSeconds: 1
-      failureThreshold: 30
-
-  # -----------------------------------------------------------
-  # Ingress
-  # -----------------------------------------------------------
-  service:
-    type: LoadBalancer
-    labels: {}
-    annotations: {}
-    nodePorts:
-      http: # @schema type:[integer, null]; minimum:0
-      https: # @schema type:[integer, null]; minimum:0
-    disableHttpPort: false
-    extraPorts: []
-    externalIPs: []
-    loadBalancerIP:
-    loadBalancerSourceRanges: []
-    ipFamilyPolicy: PreferDualStack
-    ipFamilies: []
-
-  httpRoute:
-    enabled: false
-    annotations: {}
-    hostnames: []
-    gateway:
-      name: your-gateway
-      namespace: "" # required for a gateway resource in another namespace
-
-  ingress:
-    enabled: false
-    annotations: {}
-    ingressClassName:
-    hosts: []
-    path: /
-    pathSuffix:
-    pathType: Prefix
-    tls: []
-    extraPaths: []
-
 # these are only for testing
 seed:
   enabled: false

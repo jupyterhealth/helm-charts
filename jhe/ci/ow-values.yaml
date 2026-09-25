@@ -6,7 +6,7 @@ db:
   host: ow-postgres
 
 env:
-  SITE_URL: http://jhe.local.jovyan.org:8081
+  SITE_URL: http://localhost:8081
 
 service:
   type: ClusterIP
@@ -14,16 +14,11 @@ service:
 ingress:
   enabled: true
   hosts:
+    - localhost
     - jhe.local.jovyan.org
 
 openWearables:
   enabled: true
-  service:
-    type: ClusterIP
-  ingress:
-    enabled: true
-    hosts:
-      - ow.local.jovyan.org
 
 postgres:
   enabled: true
