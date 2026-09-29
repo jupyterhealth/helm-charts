@@ -29,6 +29,10 @@ spec:
         {{- end }}
     spec:
       nodeSelector: {{ toJson .Values.nodeSelector }}
+      {{- with $self.podSecurityContext }}
+      securityContext:
+        {{- . | toYaml | nindent 8 }}
+      {{- end }}
       volumes:
         {{- if .Values.extraVolumes }}
         {{- .Values.extraVolumes | toYaml | trimSuffix "\n" | nindent 8 }}
@@ -45,6 +49,10 @@ spec:
             - python3
             - manage.py
             - migrate
+          {{- with $self.containerSecurityContext }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
           {{- with .Values.resources }}
           resources:
             {{- . | toYaml | trimSuffix "\n" | nindent 12 }}
@@ -72,6 +80,10 @@ spec:
             {{- if .Values.args }}
             {{- .Values.args  | toYaml | trimSuffix "\n" | nindent 12 }}
             {{- end }}
+          {{- with $self.containerSecurityContext }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
 
           {{- if .Values.volumeMounts }}
           volumeMounts:
@@ -94,30 +106,18 @@ spec:
             - name: ALLOWED_HOSTS
               value: 127.0.0.1,localhost,{{ get (.Values.env.SITE_URL | default "http://localhost" | urlParse) "host" | regexFind "^[^:]+" }},.{{ .Release.Namespace }}.svc.cluster.local
             {{- end }}
-            {{- if .Values.mcp.enabled }}
-            - name: MCP_OAUTH_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "jhe.fullname" $ }}-mcp
-                  key: JHE_CLIENT_ID
-            - name: MCP_OAUTH_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "jhe.fullname" $ }}-mcp
-                  key: JHE_CLIENT_SECRET
-            {{- end }}
           ports:
             - containerPort: 8000
               name: http
-          {{- if .Values.livenessProbe.enabled }}
+          {{- if $self.livenessProbe.enabled }}
           livenessProbe:
-            {{- include "jhe.probe" .Values.livenessProbe | nindent 12 }}
+            {{- include "jhe.probe" $self.livenessProbe | nindent 12 }}
           {{- end }}
-          {{- if .Values.readinessProbe.enabled }}
+          {{- if $self.readinessProbe.enabled }}
           readinessProbe:
-            {{- include "jhe.probe" .Values.readinessProbe | nindent 12 }}
+            {{- include "jhe.probe" $self.readinessProbe | nindent 12 }}
           {{- end }}
-          {{- if .Values.startupProbe.enabled }}
+          {{- if $self.startupProbe.enabled }}
           startupProbe:
-            {{- include "jhe.probe" .Values.startupProbe | nindent 12 }}
+            {{- include "jhe.probe" $self.startupProbe | nindent 12 }}
           {{- end }}

@@ -14,6 +14,31 @@
     "args": {
       "type": "array"
     },
+    "containerSecurityContext": {
+      "type": "object",
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "type": "boolean"
+        },
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "drop": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "runAsGroup": {
+          "type": "integer"
+        },
+        "runAsUser": {
+          "type": "integer"
+        }
+      }
+    },
     "db": {
       "type": "object",
       "properties": {
@@ -168,6 +193,9 @@
             "null"
           ]
         },
+        "containerSecurityContext": {
+          "type": "object"
+        },
         "enabled": {
           "type": "boolean"
         },
@@ -250,6 +278,9 @@
               "type": "integer"
             }
           }
+        },
+        "podSecurityContext": {
+          "type": "object"
         },
         "readinessProbe": {
           "type": "object",
@@ -358,6 +389,337 @@
     "nameOverride": {
       "type": "string"
     },
+    "openWearables": {
+      "type": "object",
+      "properties": {
+        "backend": {
+          "type": "object",
+          "properties": {
+            "_secret_env": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "args": {
+              "type": "array"
+            },
+            "command": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "containerSecurityContext": {
+              "type": "object"
+            },
+            "env": {
+              "type": "object"
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "initialDelaySeconds": {
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "type": "integer"
+                }
+              }
+            },
+            "podSecurityContext": {
+              "type": "object"
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "initialDelaySeconds": {
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "type": "integer"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "service": {
+              "type": "object",
+              "properties": {
+                "annotations": {
+                  "type": "object"
+                }
+              }
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "failureThreshold": {
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "celery-beat": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "celery-worker": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "httpRoute": {
+          "type": "object",
+          "properties": {
+            "annotations": {
+              "type": "object"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "gateway": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "namespace": {
+                  "type": "string"
+                }
+              }
+            },
+            "hostnames": {
+              "type": "array"
+            }
+          }
+        },
+        "ingress": {
+          "type": "object",
+          "properties": {
+            "annotations": {
+              "type": "object"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "extraPaths": {
+              "type": "array"
+            },
+            "hosts": {
+              "type": "array"
+            },
+            "ingressClassName": {
+              "type": "null"
+            },
+            "path": {
+              "type": "string"
+            },
+            "pathSuffix": {
+              "type": "null"
+            },
+            "pathType": {
+              "type": "string"
+            },
+            "tls": {
+              "type": "array"
+            }
+          }
+        },
+        "poll": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "schedule": {
+              "type": "string"
+            }
+          }
+        },
+        "redis": {
+          "type": "object",
+          "properties": {
+            "args": {
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "command": {
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "containerSecurityContext": {
+              "type": "object"
+            },
+            "data": {
+              "type": "object"
+            },
+            "env": {
+              "type": "object"
+            },
+            "image": {
+              "type": "string"
+            },
+            "livenessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "podSecurityContext": {
+              "type": "object"
+            },
+            "readinessProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "replicas": {
+              "type": "integer"
+            },
+            "resources": {
+              "type": "object"
+            },
+            "service": {
+              "type": "object",
+              "properties": {
+                "annotations": {
+                  "type": "object"
+                }
+              }
+            },
+            "startupProbe": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "pdb": {
       "type": "object",
       "properties": {
@@ -372,6 +734,25 @@
             },
             "minAvailable": {
               "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "podSecurityContext": {
+      "type": "object",
+      "properties": {
+        "fsGroup": {
+          "type": "integer"
+        },
+        "runAsNonRoot": {
+          "type": "boolean"
+        },
+        "seccompProfile": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
             }
           }
         }

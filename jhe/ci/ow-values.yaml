@@ -1,0 +1,44 @@
+db:
+  user: pguser
+  name: jhe-test-ow
+  password: test-password
+  # match postgres.serviceName
+  host: ow-postgres
+
+env:
+  SITE_URL: http://localhost:8081
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  hosts:
+    - localhost
+    - jhe.local.jovyan.org
+
+openWearables:
+  enabled: true
+  backend:
+    env:
+      ADMIN_EMAIL: admin@example.org
+      ADMIN_PASSWORD: insecure-testing
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    hosts:
+      - ow.local.jovyan.org
+  poll:
+    schedule: "*/1 * * * *"
+
+postgres:
+  enabled: true
+  serviceName: ow-postgres
+
+seed:
+  enabled: true
+  hook: post-upgrade
+  args:
+    - --flush-db
+    - --with-rich
