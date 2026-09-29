@@ -19,6 +19,10 @@ ingress:
 
 openWearables:
   enabled: true
+  backend:
+    env:
+      ADMIN_EMAIL: admin@example.org
+      ADMIN_PASSWORD: insecure-testing
   service:
     type: ClusterIP
   ingress:
