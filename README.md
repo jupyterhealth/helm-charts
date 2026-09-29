@@ -86,5 +86,5 @@ print(r.json()['key'])
 Then go to your JHE settings and set:
 
 - `ow.api_key` to the new key
-- `ow.api_url` to the correct URL (Should be `http://$name-ow:8000` where `$name` is the name of your Helm deployment)
+- `ow.api_url` to the correct URL (Should be `http://${name}-ow` where `${name}` is the name of your Helm deployment)
 - `module.ow` to true
