@@ -224,6 +224,8 @@ openWearables:
     # @ignore
     _secret_env:
       - SECRET_KEY
+      # make sure we never set up with the default insecure password
+      - ADMIN_PASSWORD
 
     resources: {}
     service:
