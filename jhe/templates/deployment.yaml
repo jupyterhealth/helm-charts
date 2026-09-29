@@ -94,32 +94,6 @@ spec:
             - name: ALLOWED_HOSTS
               value: 127.0.0.1,localhost,{{ get (.Values.env.SITE_URL | default "http://localhost" | urlParse) "host" | regexFind "^[^:]+" }},.{{ .Release.Namespace }}.svc.cluster.local
             {{- end }}
-            {{- if .Values.mcp.enabled }}
-            - name: MCP_OAUTH_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "jhe.fullname" $ }}-mcp
-                  key: JHE_CLIENT_ID
-            - name: MCP_OAUTH_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "jhe.fullname" $ }}-mcp
-                  key: JHE_CLIENT_SECRET
-            {{- end }}
-            {{- if .Values.openWearables.enabled }}
-            - name: OW_API_URL
-              value: http://{{ include "jhe.fullname" $ }}-ow:8000
-            - name: OW_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "jhe.fullname" $ }}-ow
-                  key: JHE_CLIENT_ID
-            - name: MCP_OAUTH_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "jhe.fullname" $ }}-mcp
-                  key: JHE_CLIENT_SECRET
-            {{- end }}
           ports:
             - containerPort: 8000
               name: http

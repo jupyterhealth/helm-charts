@@ -51,4 +51,22 @@ spec:
           env:
             - name: PYTHONUNBUFFERED
               value: "1"
+            {{/* seed MCP oauth client */}}
+            {{- if .Values.mcp.enabled }}
+            - name: MCP_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jhe.fullname" $ }}-mcp
+                  key: JHE_CLIENT_ID
+            - name: MCP_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jhe.fullname" $ }}-mcp
+                  key: JHE_CLIENT_SECRET
+            - name: MCP_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jhe.fullname" $ }}-mcp
+                  key: JHE_CLIENT_SECRET
+            {{- end }}
 {{- end }}
