@@ -1,0 +1,61 @@
+{{- if and .Values.openWearables.enabled .Values.openWearables.poll.enabled }}
+{{- $self := .Values.openWearables.poll }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ template "jhe.fullname" . }}-ow-poll
+  labels:
+    app.kubernetes.io/component: ow-poll
+    {{- include "jhe.labels" . | nindent 4 }}
+  {{- with $self.annotations }}
+  annotations:
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  schedule: {{ $self.schedule | quote }}
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: {{ template "jhe.fullname" . }}-ow-poll
+          labels:
+            app.kubernetes.io/component: ow-poll
+            {{- include "jhe.matchLabels" . | nindent 12 }}
+        spec:
+          nodeSelector: {{ toJson .Values.nodeSelector }}
+          restartPolicy: Never
+          {{- with ($self.podSecurityContext | default $.Values.podSecurityContext) }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: ow-poll
+              image: {{ .Values.image }}
+              command:
+                - python3
+                - manage.py
+                - ow_poll
+                {{- if $self.args }}
+                {{- $self.args  | toYaml | trimSuffix "\n" | nindent 16 }}
+                {{- end }}
+              
+              {{- with ($self.containerSecurityContext | default $.Values.containerSecurityContext) }}
+              securityContext:
+                {{- . | toYaml | nindent 16 }}
+              {{- end }}
+    
+              {{- with .Values.resources }}
+              resources:
+                {{- . | toYaml | trimSuffix "\n" | nindent 16 }}
+              {{- end }}
+              {{- with .Values.imagePullPolicy }}
+              imagePullPolicy: {{ . }}
+              {{- end }}
+              envFrom:
+                - secretRef:
+                    name: {{ include "jhe.fullname" $ }}
+              env:
+                - name: PYTHONUNBUFFERED
+                  value: "1"
+{{- end }}

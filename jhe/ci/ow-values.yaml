@@ -29,6 +29,8 @@ openWearables:
     enabled: true
     hosts:
       - ow.local.jovyan.org
+  poll:
+    schedule: "*/1 * * * *"
 
 postgres:
   enabled: true

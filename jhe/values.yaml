@@ -363,6 +363,13 @@ openWearables:
     tls: []
     extraPaths: []
 
+  # -----------------------------------------------------------
+  # OW -> JHE Poller
+  # -----------------------------------------------------------
+  poll:
+    enabled: true
+    schedule: "*/5 * * * *"
+
 # these are only for testing
 
 seed:
