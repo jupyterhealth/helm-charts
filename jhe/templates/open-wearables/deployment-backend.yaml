@@ -32,12 +32,20 @@ spec:
         {{- end }}
     spec:
       nodeSelector: {{ toJson $.Values.nodeSelector }}
+      {{- with ($self.podSecurityContext | default $.Values.openWearables.backend.podSecurityContext | default $.Values.podSecurityContext) }}
+      securityContext:
+        {{- . | toYaml | nindent 8 }}
+      {{- end }}
       containers:
         - name: backend
           image: {{ $self.image | default $backend.image }}
           {{- with $self.command }}
           command:
             {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with ($self.containerSecurityContext | default $.Values.openWearables.backend.containerSecurityContext | default $.Values.containerSecurityContext) }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
           {{- end }}
 
           {{- with $self.resources }}
@@ -50,6 +58,11 @@ spec:
           env:
             - name: REDIS_HOST
               value: {{ include "jhe.fullname" $ }}-ow-redis
+            {{/* uv cache defaults to non-writeable /.cache */}}
+            - name: UV_CACHE_DIR
+              value: /tmp/uv-cache
+            - name: CELERY_BEAT_SCHEDULE
+              value: /tmp/celery-beat-schedule
           envFrom:
             - secretRef:
                 name: {{ include "jhe.fullname" $ }}-ow-backend
@@ -59,6 +72,7 @@ spec:
               name: http
               protocol: TCP
           {{- end }}
+          {{- if eq $key "backend" }}
           {{- if $self.livenessProbe.enabled }}
           livenessProbe:
             {{- include "jhe.probe" $self.livenessProbe | nindent 12 }}
@@ -70,6 +84,7 @@ spec:
           {{- if $self.startupProbe.enabled }}
           startupProbe:
             {{- include "jhe.probe" $self.startupProbe | nindent 12 }}
+          {{- end }}
           {{- end }}
 ---
 {{- end }}

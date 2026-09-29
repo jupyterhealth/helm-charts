@@ -14,6 +14,31 @@
     "args": {
       "type": "array"
     },
+    "containerSecurityContext": {
+      "type": "object",
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "type": "boolean"
+        },
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "drop": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "runAsGroup": {
+          "type": "integer"
+        },
+        "runAsUser": {
+          "type": "integer"
+        }
+      }
+    },
     "db": {
       "type": "object",
       "properties": {
@@ -168,6 +193,9 @@
             "null"
           ]
         },
+        "containerSecurityContext": {
+          "type": "object"
+        },
         "enabled": {
           "type": "boolean"
         },
@@ -250,6 +278,9 @@
               "type": "integer"
             }
           }
+        },
+        "podSecurityContext": {
+          "type": "object"
         },
         "readinessProbe": {
           "type": "object",
@@ -379,6 +410,9 @@
                 "type": "string"
               }
             },
+            "containerSecurityContext": {
+              "type": "object"
+            },
             "env": {
               "type": "object"
             },
@@ -401,6 +435,9 @@
                   "type": "integer"
                 }
               }
+            },
+            "podSecurityContext": {
+              "type": "object"
             },
             "readinessProbe": {
               "type": "object",
@@ -600,6 +637,17 @@
             }
           }
         },
+        "poll": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "schedule": {
+              "type": "string"
+            }
+          }
+        },
         "redis": {
           "type": "object",
           "properties": {
@@ -614,6 +662,9 @@
                 "array",
                 "null"
               ]
+            },
+            "containerSecurityContext": {
+              "type": "object"
             },
             "data": {
               "type": "object"
@@ -631,6 +682,9 @@
                   "type": "boolean"
                 }
               }
+            },
+            "podSecurityContext": {
+              "type": "object"
             },
             "readinessProbe": {
               "type": "object",
@@ -680,6 +734,25 @@
             },
             "minAvailable": {
               "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "podSecurityContext": {
+      "type": "object",
+      "properties": {
+        "fsGroup": {
+          "type": "integer"
+        },
+        "runAsNonRoot": {
+          "type": "boolean"
+        },
+        "seccompProfile": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
             }
           }
         }

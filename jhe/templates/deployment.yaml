@@ -29,6 +29,10 @@ spec:
         {{- end }}
     spec:
       nodeSelector: {{ toJson .Values.nodeSelector }}
+      {{- with $self.podSecurityContext }}
+      securityContext:
+        {{- . | toYaml | nindent 8 }}
+      {{- end }}
       volumes:
         {{- if .Values.extraVolumes }}
         {{- .Values.extraVolumes | toYaml | trimSuffix "\n" | nindent 8 }}
@@ -45,6 +49,10 @@ spec:
             - python3
             - manage.py
             - migrate
+          {{- with $self.containerSecurityContext }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
           {{- with .Values.resources }}
           resources:
             {{- . | toYaml | trimSuffix "\n" | nindent 12 }}
@@ -72,6 +80,10 @@ spec:
             {{- if .Values.args }}
             {{- .Values.args  | toYaml | trimSuffix "\n" | nindent 12 }}
             {{- end }}
+          {{- with $self.containerSecurityContext }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
 
           {{- if .Values.volumeMounts }}
           volumeMounts:

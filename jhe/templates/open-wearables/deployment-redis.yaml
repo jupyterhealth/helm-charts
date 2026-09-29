@@ -29,12 +29,21 @@ spec:
         {{- end }}
     spec:
       nodeSelector: {{ toJson .Values.nodeSelector }}
+      {{- with ($self.podSecurityContext | default $.Values.podSecurityContext) }}
+      securityContext:
+        {{- . | toYaml | nindent 8 }}
+      {{- end }}
       containers:
         - name: backend
           image: {{ $self.image }}
           {{- with $self.command }}
           command:
             {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with ($self.containerSecurityContext | default $.Values.containerSecurityContext) }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
           {{- end }}
 
           {{- with $self.resources }}

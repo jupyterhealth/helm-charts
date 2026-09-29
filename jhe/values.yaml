@@ -54,6 +54,22 @@ _secret_env:
   - OIDC_RSA_PRIVATE_KEY
   - SECRET_KEY
 
+# -- securityContext applied to JHE pods
+# -- and used as the default for all pods
+podSecurityContext:
+  runAsNonRoot: true
+  fsGroup: 1000
+  seccompProfile:
+    type: "RuntimeDefault"
+# -- securityContext applied to JHE containers
+# -- and used as the default for all containers
+containerSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+
 # -- resources for each JHE deployment replica
 resources: {}
 
@@ -149,6 +165,12 @@ mcp:
     - JHE_CLIENT_ID
     - JHE_CLIENT_SECRET
 
+  # -- override pod securityContext for mcp.
+  # uses top-level podSecurityContext by default
+  podSecurityContext: {}
+  # -- override container securityContext for mcp.
+  # uses top-level containerSecurityContext by default
+  containerSecurityContext: {}
   service:
     type: LoadBalancer
     labels: {}
@@ -231,6 +253,13 @@ openWearables:
     service:
       annotations: {}
 
+    # -- override pod securityContext for open-wearables backend
+    # uses top-level podSecurityContext by default
+    podSecurityContext: {}
+    # -- override container securityContext for open-wearables backend.
+    # uses top-level containerSecurityContext by default
+    containerSecurityContext: {}
+
     livenessProbe:
       enabled: false
       initialDelaySeconds: 5
@@ -294,6 +323,13 @@ openWearables:
     data: {}
     service:
       annotations: {}
+
+    # -- override pod securityContext for open-wearables redis
+    # uses top-level podSecurityContext by default
+    podSecurityContext: {}
+    # -- override container securityContext for open-wearables redis.
+    # uses top-level containerSecurityContext by default
+    containerSecurityContext: {}
 
     livenessProbe:
       enabled: false

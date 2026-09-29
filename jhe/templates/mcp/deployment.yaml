@@ -32,6 +32,10 @@ spec:
         {{- end }}
     spec:
       nodeSelector: {{ toJson .Values.nodeSelector }}
+      {{- with ($self.podSecurityContext | default $.Values.podSecurityContext) }}
+      securityContext:
+        {{- . | toYaml | nindent 8 }}
+      {{- end }}
       containers:
         - name: jhe-mcp
           image: {{ $self.image }}
@@ -44,6 +48,11 @@ spec:
             {{- .  | toYaml | trimSuffix "\n" | nindent 12 }}
           {{- end }}
 
+          {{- with ($self.containerSecurityContext | default $.Values.containerSecurityContext) }}
+          securityContext:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
+    
           {{- with $self.resources }}
           resources:
             {{- . | toYaml | trimSuffix "\n" | nindent 12 }}
