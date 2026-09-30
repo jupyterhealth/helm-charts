@@ -25,7 +25,7 @@ debug:
   enabled: false
 
 # -- image for JHE
-image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.15.dev17-g39cc5f498
+image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.15.dev20
 imagePullPolicy:
 
 migrate:
@@ -145,7 +145,7 @@ startupProbe:
 
 mcp:
   # -- mcp server image
-  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev17-g39cc5f498
+  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev20
   enabled: false
   # -- mcp server replicas
   replicas: 1
