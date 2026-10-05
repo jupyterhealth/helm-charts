@@ -25,7 +25,7 @@ debug:
   enabled: false
 
 # -- image for JHE
-image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.15.dev29-g664130da9
+image: ghcr.io/jupyterhealth/jupyterhealth-exchange:0.0.15.dev30-g070edf83f
 imagePullPolicy:
 
 migrate:
@@ -37,6 +37,12 @@ migrate:
 args: []
 # -- Extra volumes to mount
 volumeMounts: []
+# -- extra files to mount in core/data,
+# such as `assetlinks.json`
+# keys are filenames, values are file content
+# strings are files as-is while objects are serialized to JSON
+coreData: {}
+
 # -- Number of worker processes per JHE replica
 workers: 2
 
@@ -143,7 +149,7 @@ startupProbe:
 
 mcp:
   # -- mcp server image
-  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev29-g664130da9
+  image: ghcr.io/jupyterhealth/jupyterhealth-exchange-mcp:0.0.15.dev30-g070edf83f
   enabled: false
   # -- mcp server replicas
   replicas: 1

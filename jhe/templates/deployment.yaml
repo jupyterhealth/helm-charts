@@ -24,6 +24,7 @@ spec:
       annotations:
         # This lets us autorestart when the secret changes!
         checksum/secret: {{ include (print .Template.BasePath "/secret.yaml") . | sha256sum }}
+        checksum/coredata: {{ include (print .Template.BasePath "/configmap-coredata.yaml") . | sha256sum }}
         {{- if .Values.annotations }}
         {{- .Values.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
         {{- end }}
@@ -34,6 +35,11 @@ spec:
         {{- . | toYaml | nindent 8 }}
       {{- end }}
       volumes:
+        {{- if .Values.coreData }}
+        - name: coredata
+          configMap:
+            name: {{ include "jhe.fullname" . }}-coredata
+        {{- end }}
         {{- if .Values.extraVolumes }}
         {{- .Values.extraVolumes | toYaml | trimSuffix "\n" | nindent 8 }}
         {{- end }}
@@ -85,9 +91,16 @@ spec:
             {{- . | toYaml | nindent 12 }}
           {{- end }}
 
-          {{- if .Values.volumeMounts }}
+          {{- if (or .Values.volumeMounts .Values.coreData) }}
           volumeMounts:
-            {{- .Values.volumeMounts | toYaml | trimSuffix "\n" | nindent 12 }}
+            {{- range $fileName, $_ := .Values.coreData }}
+            - mountPath: /code/core/data/{{ $fileName }}
+              name: coredata
+              subPath: {{ $fileName | quote }}
+            {{- end }}
+            {{- with .Values.volumeMounts }}
+            {{ . | toYaml | trimSuffix "\n" | nindent 12 }}
+            {{- end }}
             {{- end }}
           {{- with .Values.resources }}
           resources:
