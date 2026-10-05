@@ -37,6 +37,12 @@ migrate:
 args: []
 # -- Extra volumes to mount
 volumeMounts: []
+# -- extra files to mount in core/data,
+# such as `assetlinks.json`
+# keys are filenames, values are file content
+# strings are files as-is while objects are serialized to JSON
+coreData: {}
+
 # -- Number of worker processes per JHE replica
 workers: 2
 

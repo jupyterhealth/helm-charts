@@ -1,0 +1,17 @@
+{{- if .Values.coreData -}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "jhe.fullname" . }}-coredata
+  labels:
+    {{- include "jhe.labels" . | nindent 4 }}
+data:
+  {{- range $fileName, $content := .Values.coreData }}
+  {{- $textContent := $content }}
+  {{- if kindIs "string" $content }}
+  {{- else }}
+    {{- $textContent = $content | toJson }}
+  {{- end }}
+  {{ $fileName | quote }}: {{ $textContent | quote }} 
+  {{- end }}
+{{- end }}

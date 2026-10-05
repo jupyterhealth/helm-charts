@@ -39,6 +39,9 @@
         }
       }
     },
+    "coreData": {
+      "type": "object"
+    },
     "db": {
       "type": "object",
       "properties": {
