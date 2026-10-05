@@ -74,7 +74,7 @@ r.raise_for_status()
 token = r.json()["access_token"]
 
 r = requests.post(
-  ow_url / "api/v1/developers/api-keys",
+  ow_url / "api/v1/developer/api-keys",
   headers={"Authorization": f"Bearer {token}"},
   json={"name": "JHE"},
 )

@@ -98,18 +98,10 @@
         "enabled": {
           "type": "boolean"
         },
-        "gateway": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "namespace": {
-              "type": "string"
-            }
-          }
-        },
         "hostnames": {
+          "type": "array"
+        },
+        "parentRefs": {
           "type": "array"
         }
       }
@@ -211,18 +203,10 @@
             "enabled": {
               "type": "boolean"
             },
-            "gateway": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "namespace": {
-                  "type": "string"
-                }
-              }
-            },
             "hostnames": {
+              "type": "array"
+            },
+            "parentRefs": {
               "type": "array"
             }
           }
@@ -589,18 +573,10 @@
             "enabled": {
               "type": "boolean"
             },
-            "gateway": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "namespace": {
-                  "type": "string"
-                }
-              }
-            },
             "hostnames": {
+              "type": "array"
+            },
+            "parentRefs": {
               "type": "array"
             }
           }

@@ -104,9 +104,7 @@ httpRoute:
   enabled: false
   annotations: {}
   hostnames: []
-  gateway:
-    name: your-gateway
-    namespace: "" # required for a gateway resource in another namespace
+  parentRefs: []
 
 ingress:
   # -- Expose JHE via Ingress
@@ -190,9 +188,7 @@ mcp:
     enabled: false
     annotations: {}
     hostnames: []
-    gateway:
-      name: your-gateway
-      namespace: "" # required for a gateway resource in another namespace
+    parentRefs: []
 
   # -- Expose MCP Server via Ingress
   ingress:
@@ -346,9 +342,7 @@ openWearables:
     enabled: false
     annotations: {}
     hostnames: []
-    gateway:
-      name: your-gateway
-      namespace: "" # required for a gateway resource in another namespace
+    parentRefs: []
 
   ingress:
     # -- expose openWearables via ingress
