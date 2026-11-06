@@ -239,7 +239,7 @@ openWearables:
   enabled: false
   backend:
     replicas: 1
-    image: themomentum/open-wearables-backend:0.9
+    image: themomentum/open-wearables-backend:0.11
     command:
       - scripts/start/app.sh
     args: []
