@@ -381,5 +381,5 @@ seed:
 postgres:
   # -- include a temporary postgres database for local testing (NOT FOR PRODUCTION)
   enabled: false
-  image: postgres:18
+  image: postgres:19
   serviceName: ""
